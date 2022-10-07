@@ -26,7 +26,7 @@ Do not create any unnecessary functions e.g. helpers.
 function validateProperty(obj, propValidator) {
   const propName = obj[propValidator.name]
 
-  // return true if all functions in the predicate return true
+  // return true if all functions / predicates return true
   return propValidator.validators.every(f => f(propName))
 }
 
