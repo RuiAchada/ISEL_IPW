@@ -26,13 +26,13 @@ Functions have context, input and output. Make sure you consider the context, in
 */
 
 function Spy(target, method) {
-  this.count = 1
+  const originalFun = target[method]
+  const spyObj = { count: 0 }
+  target[method] = arg => {
+    originalFun(arg)
+    spyObj.count++
+  }
+  return spyObj
 }
 
-var spy = Spy(console, "error")
-
-console.error("calling console.error")
-console.error("calling console.error")
-console.error("calling console.error")
-
-console.log(spy.count) // 3
+module.exports = Spy
