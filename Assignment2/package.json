@@ -1,0 +1,18 @@
+{
+  "name": "assignment2",
+  "version": "1.0.0",
+  "description": "Assignment 2 for IPW",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Rui Achada",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.1.2"
+  },
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "node-fetch": "^3.2.10"
+  }
+}
