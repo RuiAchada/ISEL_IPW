@@ -40,3 +40,51 @@ Using Promises explicitly
 Using the async/await style
 REMARK: The students should consider the limitations of this free API, namely the maximum number of requestas per day (100).
 */
+
+import { readFile, createFile } from "./src/utils.mjs"
+import { makeRequestAw } from "./src/awaitAsync.mjs"
+import { makeRequestPr } from "./src/promises.mjs"
+import fs from "fs"
+const URL = "https://imdb-api.com/en/API/Title/k_om775mcl/"
+const pathToSave = "./content/newJson.json"
+const pathToRead = "content/movie-list.json"
+
+async function start() {
+  let movies = readFile(pathToRead)
+  let newObj = []
+  let promises = []
+  movies["movie-ids"]?.map(it => {
+    let url = `${URL}${it}`
+    console.log(url)
+    //promises.push(makeRequestAw(url))
+    promises.push(makeRequestPr(url))
+  })
+  console.log(promises)
+  let result = Promise.all(promises)
+  result.then(data => jsonSuccess(data))
+}
+
+function jsonSuccess(data) {
+  let obj = generateNewJson(data)
+  createFile(pathToSave, obj)
+}
+
+export function generateNewJson(movies) {
+  let totalDuration = 0
+  let json = {}
+  json["movies"] = []
+  movies.map(it => {
+    let movObj = JSON.parse(it)
+    let movie = {}
+    movie.id = movObj.id
+    movie.title = movObj.title
+    movie.duration = movObj.runtimeMins
+    totalDuration += parseInt(movObj.runtimeMins)
+    json["movies"].push(movie)
+  })
+  json["total-duration"] = totalDuration
+  console.log(json)
+  return json
+}
+
+start()
